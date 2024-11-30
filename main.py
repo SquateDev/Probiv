@@ -25,11 +25,11 @@ def send_welcome(message):
             "Вот что я могу сделать:\n"
             "- Получить подробную информацию о любом IP-адресе.\n"
             "- Ответить на ваши вопросы о ботах.\n\n"
-            "Вы можете поддержать меня, нажав кнопку 'Donate' ниже.\n"
+            "Вы можете поддержать меня, нажав кнопку 'Донат' ниже.\n"
             "После первого использования, для перезапуска просто отправьте команду /start."
         )
         markup = types.InlineKeyboardMarkup()
-        donate_button = types.InlineKeyboardButton("Donate", url="https://www.donationalerts.com/r/squate_dev")
+        donate_button = types.InlineKeyboardButton("Донат", url="https://www.donationalerts.com/r/squate_dev")
         markup.add(donate_button)
         bot.reply_to(message, welcome_text, parse_mode='Markdown', reply_markup=markup)
         first_start = False  # Устанавливаем флаг, чтобы не показывать это сообщение снова
@@ -60,15 +60,18 @@ def get_ip_info(message):
         if response.status_code == 200:
             data = response.json()
             if 'error' not in data:
-                # Собрать всю доступную информацию
+                loc = data.get('loc', 'Неизвестно').split(',')
+                latitude = loc[0] if len(loc) > 0 else 'Неизвестно'
+                longitude = loc[1] if len(loc) > 1 else 'Неизвестно'
+
                 info = (
                     f"*IP:* `{data.get('ip', 'Неизвестен')}`\n"
                     f"*Страна:* `{data.get('country', 'Неизвестна')}`\n"
                     f"*Регион:* `{data.get('region', 'Неизвестен')}`\n"
                     f"*Город:* `{data.get('city', 'Неизвестен')}`\n"
                     f"*Почтовый индекс:* `{data.get('postal', 'Неизвестен')}`\n"
-                    f"*Широта:* `{data.get('loc', 'Неизвестна').split(',')[0]}`\n"
-                    f"*Долгота:* `{data.get('loc', 'Неизвестна').split(',')[1]}`\n"
+                    f"*Широта:* `{latitude}`\n"
+                    f"*Долгота:* `{longitude}`\n"
                     f"*ISP:* `{data.get('org', 'Неизвестен')}`\n"
                     f"*Hostname:* `{data.get('hostname', 'Неизвестен')}`\n"
                     f"*Временная зона:* `{data.get('timezone', 'Неизвестна')}`\n"
