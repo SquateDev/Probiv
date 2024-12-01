@@ -3,7 +3,7 @@ import requests
 from telebot import types
 import re
 
-TOKEN = '7598029898:AAGm7by_L2HvH86e5_-kmkEhhNj_x8y_nRA'  # Замените на токен вашего бота
+TOKEN = '7598029898:AAGm7by_L2HvH86e5_-kmkEhhNj_x8y_nRA'
 IPINFO_TOKEN = '511a0ee61b7f2f'  # Токен для ipinfo.io
 bot = telebot.TeleBot(TOKEN)
 
